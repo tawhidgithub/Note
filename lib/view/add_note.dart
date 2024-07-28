@@ -29,7 +29,7 @@ class _AddNotesState extends State<AddNotes> {
   }
 
   final titleController = TextEditingController();
-  final discriptionController = TextEditingController();
+  final descriptionController = TextEditingController();
   HomeController homeController = Get.put(HomeController());
   GenerateColor generateColor = GenerateColor();
   @override
@@ -37,7 +37,7 @@ class _AddNotesState extends State<AddNotes> {
     // TODO: implement dispose
     super.dispose();
     titleController.dispose();
-    discriptionController.dispose();
+    descriptionController.dispose();
   }
 
   @override
@@ -72,7 +72,7 @@ class _AddNotesState extends State<AddNotes> {
                     height,
                     width,
                     titleController.text.toString(),
-                    discriptionController.text.toString(),
+                    descriptionController.text.toString(),
                     dBhelper!,
                     homeController,
                     generateColor);
@@ -114,7 +114,7 @@ class _AddNotesState extends State<AddNotes> {
                 height: 20,
               ),
               TextFormField(
-                controller: discriptionController,
+                controller: descriptionController,
                 minLines: 1,
                 maxLines: 20,
                 style: const TextStyle(color: Colors.white, fontSize: 21),
@@ -139,7 +139,7 @@ showDiologeSave(
     height,
     width,
     String title,
-    String discription,
+    String description,
     DBhelper dBhelper,
     HomeController homeController,
     GenerateColor generateColor) {
@@ -180,22 +180,28 @@ showDiologeSave(
                       BtnB(onTap: () {}, text: "Discard"),
                       BtnB(
                         onTap: () {
-                          dBhelper
-                              .insert(NotesModle(
-                                  title: title,
-                                  description: discription,
-                                  color: generateColor.getColors()))
-                              .then((value) {
-                            Get.snackbar("Sucessfull", "Data Added");
-                            Navigator.pop(context);
-                          }).onError((error, stackTrace) {
-                            Get.snackbar("Error", error.toString());
-                            debugPrint(" Error is  ${error.toString()}");
-                            Navigator.pop(context);
-                          });
+                          try {
+                            dBhelper
+                                .insert(NotesModle(
+                                    title: title,
+                                    description: description,
+                                    color: generateColor.getColors()))
+                                .then((value) {
+                              Get.snackbar("Sucessfull", "Data Added");
+                              Navigator.pop(context);
+                            }).onError((error, stackTrace) {
+                              Get.snackbar("Error", error.toString());
+                              debugPrint(" Error is  ${error.toString()}");
+                              Navigator.pop(context);
+                            });
 
-                          homeController.fatchData();
-                          generateColor.getColors();
+                            homeController.fatchData();
+                            generateColor.getColors();
+                          } catch (e) {
+                            /// Error  : insert Error
+
+                            print(e.toString());
+                          }
                         },
                         text: "Save",
                         color: const Color(0xff30BE71),

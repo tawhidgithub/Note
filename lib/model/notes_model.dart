@@ -16,14 +16,14 @@ class NotesModle {
   NotesModle.fromMap(Map<String, dynamic> res)
       : id = res["id"],
         title = res["title"],
-        description = res["discription"],
+        description = res["description"],
         color = getColorFromName(res["color"]);
 
   Map<String, Object?> toMap() {
     return {
       "id": id,
       "title": title,
-      "discription": description,
+      "description": description,
       "color": getNameFromColor(color),
     };
   }

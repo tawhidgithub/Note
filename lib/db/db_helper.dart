@@ -18,13 +18,14 @@ class DBhelper {
 
   initDatabase() async {
     io.Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, 'notes.db');
+    String path = join(documentDirectory.path, 'notess.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreatedb);
     return db;
   }
 
   _onCreatedb(Database db, int versiion) async {
-    await db.execute("""CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT,
+    await db
+        .execute("""CREATE TABLE notess(id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         description TEXT NOT NULL,
         color TEXT NOT NULL DEFAULT 'grey')""");
@@ -32,25 +33,25 @@ class DBhelper {
 
   Future<NotesModle> insert(NotesModle notesModle) async {
     var dbClient = await db;
-    await dbClient!.insert("notes", notesModle.toMap());
+    await dbClient!.insert("notess", notesModle.toMap());
 
     return notesModle;
   }
 
   Future<RxList<NotesModle>> getData() async {
     var dbClint = await db;
-    final List<Map<String, Object?>> result = await dbClint!.query("notes");
+    final List<Map<String, Object?>> result = await dbClint!.query("notess");
     return RxList.from(result.map((e) => NotesModle.fromMap(e)).toList());
   }
 
   Future<int> delete(int id) async {
     var dbClint = await db;
-    return await dbClint!.delete("notes", where: "id = ?", whereArgs: [id]);
+    return await dbClint!.delete("notess", where: "id = ?", whereArgs: [id]);
   }
 
   Future<int> UpdateData(NotesModle notesModle) async {
     var dbClint = await db;
-    return await dbClint!.update("notes", notesModle.toMap(),
+    return await dbClint!.update("notess", notesModle.toMap(),
         where: "id =?", whereArgs: [notesModle.id]);
   }
 }
