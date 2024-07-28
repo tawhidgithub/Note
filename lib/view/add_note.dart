@@ -31,8 +31,7 @@ class _AddNotesState extends State<AddNotes> {
   final titleController = TextEditingController();
   final discriptionController = TextEditingController();
   HomeController homeController = Get.put(HomeController());
-  ColorController colorController =Get.put(ColorController());
-
+  GenerateColor generateColor = GenerateColor();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -74,7 +73,9 @@ class _AddNotesState extends State<AddNotes> {
                     width,
                     titleController.text.toString(),
                     discriptionController.text.toString(),
-                    dBhelper!,homeController,colorController);
+                    dBhelper!,
+                    homeController,
+                    generateColor);
               }),
           const SizedBox(
             width: 20,
@@ -133,8 +134,15 @@ class _AddNotesState extends State<AddNotes> {
   }
 }
 
-showDiologeSave(BuildContext context, height, width, String title,
-    String discription, DBhelper dBhelper, HomeController homeController, ColorController colorController) {
+showDiologeSave(
+    BuildContext context,
+    height,
+    width,
+    String title,
+    String discription,
+    DBhelper dBhelper,
+    HomeController homeController,
+    GenerateColor generateColor) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -174,17 +182,20 @@ showDiologeSave(BuildContext context, height, width, String title,
                         onTap: () {
                           dBhelper
                               .insert(NotesModle(
-                                  title: title, description: discription))
+                                  title: title,
+                                  description: discription,
+                                  color: generateColor.getColors()))
                               .then((value) {
                             Get.snackbar("Sucessfull", "Data Added");
                             Navigator.pop(context);
                           }).onError((error, stackTrace) {
                             Get.snackbar("Error", error.toString());
+                            debugPrint(" Error is  ${error.toString()}");
                             Navigator.pop(context);
                           });
 
                           homeController.fatchData();
-                          colorController.getColors();
+                          generateColor.getColors();
                         },
                         text: "Save",
                         color: const Color(0xff30BE71),

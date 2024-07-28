@@ -24,8 +24,10 @@ class DBhelper {
   }
 
   _onCreatedb(Database db, int versiion) async {
-    await db.execute(
-        "CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,discription TEXT NOT NULL)");
+    await db.execute("""CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT NOT NULL,
+        color TEXT NOT NULL DEFAULT 'grey')""");
   }
 
   Future<NotesModle> insert(NotesModle notesModle) async {
@@ -41,27 +43,14 @@ class DBhelper {
     return RxList.from(result.map((e) => NotesModle.fromMap(e)).toList());
   }
 
-
-
-  Future <int> delete( int id)async{
-    var dbClint=await db;
-    return await dbClint!.delete("notes",where: "id = ?",whereArgs: [id]);
-    
-    
+  Future<int> delete(int id) async {
+    var dbClint = await db;
+    return await dbClint!.delete("notes", where: "id = ?", whereArgs: [id]);
   }
 
-  Future<int>UpdateData(NotesModle notesModle )async{
-    var dbClint=await db;
-    return await dbClint!.update("table",
-    notesModle.toMap(),
-      where: "id =?",
-      whereArgs: [notesModle.id]
-    );
-
-
+  Future<int> UpdateData(NotesModle notesModle) async {
+    var dbClint = await db;
+    return await dbClint!.update("notes", notesModle.toMap(),
+        where: "id =?", whereArgs: [notesModle.id]);
   }
-
-
-
 }
-
