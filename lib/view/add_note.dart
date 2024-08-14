@@ -133,6 +133,16 @@ class _AddNotesState extends State<AddNotes> {
   }
 }
 
+/// I Have to delete this later
+
+Nothing(){
+
+  return ("");
+
+
+}
+
+/// show Diologe is here
 showDiologeSave(BuildContext context, height, width, String title,
     String discription, DBhelper dBhelper, HomeController homeController, ColorController colorController) {
   return showDialog(

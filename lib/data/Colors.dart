@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+///Colors
 List ColorS = [
   Colors.red,
   Colors.green,
@@ -9,3 +9,14 @@ List ColorS = [
   Colors.purple,
   Colors.blue
 ];
+
+
+
+/// I Have to delete this later
+
+  Nothing(){
+
+return ("");
+
+
+}
