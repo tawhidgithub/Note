@@ -7,7 +7,7 @@ import 'package:sqldatabase/model/notes_model.dart';
 
 class DBhelper {
   static Database? _db;
-
+///DB Helper
   Future<Database?> get db async {
     if (_db != null) {
       return _db;
@@ -54,4 +54,17 @@ class DBhelper {
     return await dbClint!.update("notess", notesModle.toMap(),
         where: "id =?", whereArgs: [notesModle.id]);
   }
+
+
+  /// I Have to delete this later
+
+  Nothing(){
+
+    return ("");
+
+
+  }
+
+
+
 }

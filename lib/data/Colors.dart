@@ -20,3 +20,14 @@ String getNameFromColor(Color color) {
           orElse: () => const MapEntry("grey", Colors.grey))
       .key;
 }
+
+
+
+/// I Have to delete this later
+
+  Nothing(){
+
+return ("");
+
+
+}
