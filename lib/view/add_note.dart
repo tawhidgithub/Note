@@ -29,16 +29,15 @@ class _AddNotesState extends State<AddNotes> {
   }
 
   final titleController = TextEditingController();
-  final discriptionController = TextEditingController();
+  final descriptionController = TextEditingController();
   HomeController homeController = Get.put(HomeController());
-  ColorController colorController =Get.put(ColorController());
-
+  GenerateColor generateColor = GenerateColor();
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     titleController.dispose();
-    discriptionController.dispose();
+    descriptionController.dispose();
   }
 
   @override
@@ -73,8 +72,10 @@ class _AddNotesState extends State<AddNotes> {
                     height,
                     width,
                     titleController.text.toString(),
-                    discriptionController.text.toString(),
-                    dBhelper!,homeController,colorController);
+                    descriptionController.text.toString(),
+                    dBhelper!,
+                    homeController,
+                    generateColor);
               }),
           const SizedBox(
             width: 20,
@@ -113,7 +114,7 @@ class _AddNotesState extends State<AddNotes> {
                 height: 20,
               ),
               TextFormField(
-                controller: discriptionController,
+                controller: descriptionController,
                 minLines: 1,
                 maxLines: 20,
                 style: const TextStyle(color: Colors.white, fontSize: 21),
@@ -133,8 +134,15 @@ class _AddNotesState extends State<AddNotes> {
   }
 }
 
-showDiologeSave(BuildContext context, height, width, String title,
-    String discription, DBhelper dBhelper, HomeController homeController, ColorController colorController) {
+showDiologeSave(
+    BuildContext context,
+    height,
+    width,
+    String title,
+    String description,
+    DBhelper dBhelper,
+    HomeController homeController,
+    GenerateColor generateColor) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -172,19 +180,28 @@ showDiologeSave(BuildContext context, height, width, String title,
                       BtnB(onTap: () {}, text: "Discard"),
                       BtnB(
                         onTap: () {
-                          dBhelper
-                              .insert(NotesModle(
-                                  title: title, description: discription))
-                              .then((value) {
-                            Get.snackbar("Sucessfull", "Data Added");
-                            Navigator.pop(context);
-                          }).onError((error, stackTrace) {
-                            Get.snackbar("Error", error.toString());
-                            Navigator.pop(context);
-                          });
+                          try {
+                            dBhelper
+                                .insert(NotesModle(
+                                    title: title,
+                                    description: description,
+                                    color: generateColor.getColors()))
+                                .then((value) {
+                              Get.snackbar("Sucessfull", "Data Added");
+                              Navigator.pop(context);
+                            }).onError((error, stackTrace) {
+                              Get.snackbar("Error", error.toString());
+                              debugPrint(" Error is  ${error.toString()}");
+                              Navigator.pop(context);
+                            });
 
-                          homeController.fatchData();
-                          colorController.getColors();
+                            homeController.fatchData();
+                            generateColor.getColors();
+                          } catch (e) {
+                            /// Error  : insert Error
+
+                            print(e.toString());
+                          }
                         },
                         text: "Save",
                         color: const Color(0xff30BE71),

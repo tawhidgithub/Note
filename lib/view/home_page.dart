@@ -20,17 +20,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeController homeController=Get.put(HomeController());
-  ColorController colorController=Get.put(ColorController());
-  DBhelper DbHeper=DBhelper();
+  HomeController homeController = Get.put(HomeController());
+  DBhelper DbHeper = DBhelper();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     homeController.fatchData();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,57 +109,57 @@ class _HomePageState extends State<HomePage> {
           );
         } else {
           if (homeController.notesList.isNotEmpty) {
-
-            return  ListView.builder(
+            return ListView.builder(
               itemCount: homeController.notesList.length,
               itemBuilder: (context, index) {
-
-                NotesModle note=homeController.notesList[index];
+                NotesModle note = homeController.notesList[index];
 
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 10),
-                  child:Slidable(
-                    key:  const ValueKey(0),
-
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Slidable(
+                    key: const ValueKey(0),
                     endActionPane: ActionPane(
-                      motion:  DrawerMotion(),
+                      motion: DrawerMotion(),
                       children: [
-                        SlidableAction(onPressed: (val) {
-                          DbHeper.delete(note.id!.toInt());
-                           homeController.fatchData();
-
-                        },
+                        SlidableAction(
+                          onPressed: (val) {
+                            DbHeper.delete(note.id!.toInt());
+                            homeController.fatchData();
+                          },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
-                          label: "Delete" ,
-                          borderRadius: BorderRadius.circular(15),)
+                          label: "Delete",
+                          borderRadius: BorderRadius.circular(15),
+                        )
                       ],
-
-
-
-
                     ),
-
                     child: Center(
                       child: InkWell(
-                        onTap: (){
-                         Get.to( UpdateNotes(title: note.title.toString(), description: note.description.toString(),));
-
+                        onTap: () {
+                          Get.to(UpdateNotes(
+                            title: note.title.toString(),
+                            description: note.description.toString(),
+                          ));
                         },
                         child: Container(
                           height: height * 0.15,
                           width: width * 0.9,
                           decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
+
+                              /// box Color
+                              color: note.color,
+                              borderRadius: BorderRadius.circular(10)),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Text(
                               note.title.toString(),
-                              style: TextStyle(color: Colors.white,fontSize: 28,fontWeight: FontWeight.w700),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700),
                             ),
                           ),
                         ),

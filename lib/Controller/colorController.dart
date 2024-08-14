@@ -1,49 +1,19 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:get/get.dart';
 
 import '../data/Colors.dart';
 
-class ColorController extends GetxController{
-late int random;
+class GenerateColor {
+  late int random;
 
-late Color colors;
+  late Color colors;
 
+  Color getColors() {
+    random = Random().nextInt(colorMap.length);
+    colors = colorMap.values.elementAt(random);
 
-  getColors(){
-     random= Random().nextInt(10);
-     colors= ColorS[random];
+    return colors;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
